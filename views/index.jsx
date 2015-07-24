@@ -34,16 +34,18 @@ var Todo = React.createClass({
     title: React.PropTypes.string.isRequired
   },
   getInitialState: function() {
+    this.props.trStyle = style.notCheckedTodo;
     return {
       checked: false
     };
   },
-  handleChange: function() {
+  handleChange: function(e) {
     this.setState({checked: e.target.checked});
+    this.props.trStyle = e.target.checked ? style.checkedTodo : style.notCheckedTodo;
   },
   render: function() {
     return (
-      <tr>
+      <tr style={this.props.trStyle}>
         <td style={style.tdContent}><input type="checkbox" checked={this.state.checked} onChange={this.handleChange} /></td>
         <td style={style.tdContent}>{this.props.title}</td>
         <td style={style.tdContent}>{this.props.children}</td>
@@ -68,6 +70,12 @@ var style = {
   },
   tdContent: {
     border: "1px solid black"
+  },
+  checkedTodo: { 
+    textDecoration: "line-through" 
+  }, 
+  notCheckedTodo: { 
+    textDecoration: "none" 
   }
 };
 
