@@ -1,6 +1,17 @@
 var express = require('express');
 var app = express();
 
+var React = require('react'); 
+var DOM = React.DOM; 
+var body = DOM.body; 
+var div = DOM.div; 
+var script = DOM.script;
+
+var browserify = require('browserify');
+
+require('node-jsx').install(); 
+var TodoBox = require('./views/index.jsx');
+
 app.set('port', (process.argv[2] || 3000));
 app.set('view engine', 'jsx');
 app.set('views', __dirname + '/views');
@@ -16,8 +27,31 @@ var data = [
 ];
 
 router.get('/', function(req, res, next) {
-  res.render('index', {data: data});
+  // res.render('index', {data: data});
+  var initialData = JSON.stringify(data); 
+  var markup = React.renderToString(React.createElement(TodoBox, {data: data}));
+
+  res.setHeader('Content-Type', 'text/html'); 
+
+  var html = React.renderToStaticMarkup(body(null, 
+      div({id: 'app', dangerouslySetInnerHTML: {__html: markup}}), 
+      script({id: 'initial-data', 
+              type: 'text/plain', 
+              'data-json': initialData 
+            }), 
+      script({src: '/bundle.js'}) 
+  )); 
+
+  res.end(html); 
   next();
+});
+
+app.use('/bundle.js', function(req, res) { 
+  res.setHeader('content-type', 'application/javascript'); 
+  browserify('./app.js') 
+    .transform('reactify') 
+    .bundle() 
+    .pipe(res); 
 });
 
 app.use(router);
