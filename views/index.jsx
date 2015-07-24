@@ -5,7 +5,7 @@ var TodoBox = React.createClass({
     return (
       <div className="todoBox">
         <h1>Todos</h1>
-        <TodoList />
+        <TodoList data={this.props.data} />
         <TodoForm />
       </div>
     );
@@ -14,12 +14,14 @@ var TodoBox = React.createClass({
 
 var TodoList = React.createClass({
   render: function() {
+    var todo = this.props.data.map(function(obj) {
+      return <Todo title={obj.title}>{obj.detail}</Todo>;
+    });
     return (
       <div className = "todoList">
-        <table style={{border: "2px solid black"}}>
+        <table style={style.tableContent}>
           <tbody>
-            <Todo title="Shopping">Milk</Todo>
-            <Todo title="Hair cut">13:00</Todo>
+            {todo}
           </tbody>
         </table>
       </div>
@@ -42,9 +44,9 @@ var Todo = React.createClass({
   render: function() {
     return (
       <tr>
-        <td style={{border: "1px solid black"}}><input type="checkbox" checked={this.state.checked} onChange={this.handleChange} /></td>
-        <td style={{border: "1px solid black"}}>{this.props.title}</td>
-        <td style={{border: "1px solid black"}}>{this.props.children}</td>
+        <td style={style.tdContent}><input type="checkbox" checked={this.state.checked} onChange={this.handleChange} /></td>
+        <td style={style.tdContent}>{this.props.title}</td>
+        <td style={style.tdContent}>{this.props.children}</td>
       </tr>
     );
   }
@@ -59,5 +61,14 @@ var TodoForm = React.createClass({
     );
   }
 });
+
+var style = {
+  tableContent: {
+    border: "2px solid black"
+  },
+  tdContent: {
+    border: "1px solid black"
+  }
+};
 
 module.exports = TodoBox;

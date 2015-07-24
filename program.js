@@ -10,8 +10,13 @@ require('node-jsx').install();
 
 var router = express.Router();
 
+var data = [
+	{title: 'Shopping', detail: process.argv[3]},
+	{title: 'Hair cut', detail: process.argv[4]}
+];
+
 router.get('/', function(req, res, next) {
-  res.render('index', '');
+  res.render('index', {data: data});
   next();
 });
 
