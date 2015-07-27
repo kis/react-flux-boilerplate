@@ -32,6 +32,7 @@ var TodoList = React.createClass({
       detail: this.state.detailValue
     });
     this.setState({
+      data: this.props.data,
       titleValue: '',
       detailValue: ''
     });
@@ -42,9 +43,9 @@ var TodoList = React.createClass({
     });
     return (
       <div className = "todoList">
-        <div> 
+        <div>
           Title:<input type="text" value={this.state.titleValue} onChange={this.changeTitle} />
-          Detail:<input type="text" value={this.state.detailValue} onChange={this.changeDetail} /> 
+          Detail:<input type="text" value={this.state.detailValue} onChange={this.changeDetail} />
           <button onClick={this.addTodo}>Add</button> 
         </div>
         <table style={style.tableContent}>
@@ -71,9 +72,19 @@ var Todo = React.createClass({
     this.setState({checked: e.target.checked});
     this.props.trStyle = e.target.checked ? style.checkedTodo : style.notCheckedTodo;
   },
+  _onDelete: function () {
+
+    console.log(TodoBox);
+
+    var data = this.props.data.slice().splice(this.props.data.indexOf(person), 1);
+    this.setState({data: data});
+
+    // this.props.onDelete(this.props.title);
+  },
   render: function() {
     return (
       <tr style={this.props.trStyle}>
+        <td style={style.tableContent}><button onClick={this._onDelete}>X</button></td>
         <td style={style.tdContent}><input type="checkbox" checked={this.state.checked} onChange={this.handleChange} /></td>
         <td style={style.tdContent}>{this.props.title}</td>
         <td style={style.tdContent}>{this.props.children}</td>
