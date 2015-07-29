@@ -1,5 +1,5 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var TodoConstants = require('../constants/TodoConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher.jsx');
+var TodoConstants = require('../constants/TodoConstants.jsx');
 
 var TodoActions = {
   destroy: function(id) {

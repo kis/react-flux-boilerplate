@@ -1,5 +1,6 @@
 var React = require('react'),
-    style = require('./style.jsx');
+    style = require('./style.jsx'),
+    TodoActions = require('../actions/TodoActions.jsx');
 
 var Todo = React.createClass({
   propTypes: {
@@ -15,7 +16,7 @@ var Todo = React.createClass({
     this.setState({checked: e.target.checked});
   },
   _onDelete: function () {
-    this.props.onDelete(this.props.title);
+    TodoActions.destroy(this.props.id);
   },
   render: function() {
     return (

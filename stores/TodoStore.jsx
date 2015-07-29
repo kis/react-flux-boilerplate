@@ -1,6 +1,6 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher'),
+var AppDispatcher = require('../dispatcher/AppDispatcher.jsx'),
     EventEmitter = require('events').EventEmitter,
-    TodoConstants = require('../constants/TodoConstants'),
+    TodoConstants = require('../constants/TodoConstants.jsx'),
     assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
@@ -8,6 +8,7 @@ var CHANGE_EVENT = 'change';
 var _todos = {};
 
 function destroy(id) {
+  console.log(id);
   delete _todos[id];
 }
 

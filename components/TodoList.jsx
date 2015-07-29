@@ -1,6 +1,7 @@
 var React = require('react'),
     Todo = require('./Todo.jsx'),
-    style = require('./style.jsx');
+    style = require('./style.jsx'),
+    TodoStore = require('../stores/TodoStore.jsx');
 
 var TodoList = React.createClass({
   getInitialState: function() { 
@@ -18,6 +19,7 @@ var TodoList = React.createClass({
   }, 
   addTodo: function() { 
     this.props.data.push({
+      id: (+new Date() + Math.floor(Math.random() * 999999)).toString(36),
       title: this.state.titleValue,
       detail: this.state.detailValue
     });
@@ -27,7 +29,18 @@ var TodoList = React.createClass({
       detailValue: ''
     });
   },
+  
+  componentDidMount: function() {
+    TodoStore.addChangeListener(this.onDelete);
+  },
+
+  componentWillUnmount: function() {
+    TodoStore.removeChangeListener(this.onDelete);
+  },
+  
   onDelete: function(title) {
+    console.log(title);
+
     this.props.data.forEach(function(item, i, items) {
       if (item.title == title) {
         items.splice(i, 1);
@@ -39,7 +52,7 @@ var TodoList = React.createClass({
   },
   render: function() {
     var todo = this.props.data.map(function(obj, i, todos) {
-      return <Todo title={obj.title}>{obj.detail}</Todo>;
+      return <Todo id={obj.id} title={obj.title}>{obj.detail}</Todo>;
     });
     return (
       <div className = "todoList">
