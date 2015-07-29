@@ -10,7 +10,7 @@ var script = DOM.script;
 var browserify = require('browserify');
 
 require('node-jsx').install(); 
-var TodoBox = require('./views/index.jsx');
+var TodoBox = require('./views/TodoBox.jsx');
 
 app.set('port', (process.argv[2] || 3000));
 app.set('view engine', 'jsx');
