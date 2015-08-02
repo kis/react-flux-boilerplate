@@ -10,7 +10,7 @@ var script = DOM.script;
 var browserify = require('browserify');
 
 require('node-jsx').install(); 
-var TodoBox = require('./views/index.jsx');
+var TodoBox = require('./components/TodoBox.jsx');
 
 app.set('port', (process.argv[2] || 3000));
 app.set('view engine', 'jsx');
@@ -43,6 +43,11 @@ router.get('/', function(req, res, next) {
   )); 
 
   res.end(html); 
+  next();
+});
+
+router.get('/data', function(req, res, next) {
+  res.end(data);
   next();
 });
 
